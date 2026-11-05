@@ -9,6 +9,7 @@ services:
       - "5432:5432"
     volumes:
       - pack_data:/var/lib/postgresql/data
+      - ./sql/create_resources.sql:/docker-entrypoint-initdb.d/create_resources.sql:ro  
 
 volumes:
   pack_data:
