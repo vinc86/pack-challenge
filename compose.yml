@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: pack
+      POSTGRES_PASSWORD: pack_dev
+      POSTGRES_DB: pack_resources
+    ports:
+      - "5432:5432"
+    volumes:
+      - pack_data:/var/lib/postgresql/data
+
+volumes:
+  pack_data:
