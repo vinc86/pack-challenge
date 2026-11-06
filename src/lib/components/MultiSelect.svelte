@@ -15,7 +15,7 @@
 		{#if selectedRoles.length > 0}
 			<div class="flex gap-2">
 				{#each selectedRoles as selected (selected)}
-					<span class="text-md rounded-full bg-gray-200 px-3 py-1 text-black">{selected}</span>
+					<span class="text-md rounded-full bg-gray-200 px-3 text-black">{selected}</span>
 				{/each}
 			</div>
 		{:else}
