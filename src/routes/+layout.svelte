@@ -2,7 +2,7 @@
 	import './layout.css';
 	import favicon from '#lib/assets/favicon.svg';
 	import type { LayoutProps } from './$types';
-	import Nav from '#lib/components/nav/Nav.svelte';
+	import Nav from '#lib/components/Nav/Nav.svelte';
 
 	let { children }: LayoutProps = $props();
 </script>
@@ -11,5 +11,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<Nav />
-{@render children()}
+<div class="h-screen">
+	<Nav />
+	{@render children()}
+</div>
