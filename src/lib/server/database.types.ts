@@ -2,7 +2,7 @@ import type { Generated } from 'kysely';
 
 type Role = 'Mentor/Coach' | 'Mentee/Coachee';
 
-type Resource = {
+export type Resource = {
 	id: Generated<string>;
 	title: string;
 	description: string;

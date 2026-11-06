@@ -19,12 +19,16 @@ export const languages: SelectProps = {
 	placeholder: 'Language*',
 	options: [
 		{
-			value: 'english',
+			value: 'en',
 			label: 'English'
 		},
 		{
-			value: 'italian',
+			value: 'it',
 			label: 'Italian'
+		},
+		{
+			value: 'es',
+			label: 'Spanish'
 		}
 	]
 };

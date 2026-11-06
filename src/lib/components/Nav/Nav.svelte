@@ -1,9 +1,9 @@
 <script>
 	// @ts-nocheck
 
-	import Portrait from '#static/img/portrait-placeholder.png';
-	import USFlag from '#static/img/us-flag.jpg';
-	import Logo from '#static/img/pack-logo.png';
+	import Portrait from '#src/img/portrait-placeholder.png';
+	import USFlag from '#src/img/us-flag.jpg';
+	import Logo from '#src/img/pack-logo.png';
 	import { navlinks } from './navlinks';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';

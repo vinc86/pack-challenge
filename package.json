@@ -6,7 +6,7 @@
 	"imports": {
 		"#lib": "./src/lib/index.js",
 		"#lib/*": "./src/lib/*",
-		"#static/*": "./static/*"
+		"#src/*": "./src/*"
 	},
 	"scripts": {
 		"dev": "vite dev",
@@ -52,6 +52,7 @@
 	"dependencies": {
 		"clsx": "^2.1.1",
 		"kysely": "^0.29.8",
-		"pg": "^8.23.1"
+		"pg": "^8.23.1",
+		"tailwind-merge": "^3.7.0"
 	}
 }
