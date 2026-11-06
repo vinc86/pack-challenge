@@ -5,7 +5,8 @@
 	"type": "module",
 	"imports": {
 		"#lib": "./src/lib/index.js",
-		"#lib/*": "./src/lib/*"
+		"#lib/*": "./src/lib/*",
+		"#static/*": "./static/*"
 	},
 	"scripts": {
 		"dev": "vite dev",
@@ -49,6 +50,7 @@
 		"vitest-browser-svelte": "^2.1.1"
 	},
 	"dependencies": {
+		"clsx": "^2.1.1",
 		"kysely": "^0.29.8",
 		"pg": "^8.23.1"
 	}
