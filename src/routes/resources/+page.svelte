@@ -1,7 +1,9 @@
 <script>
 	import ResourceTable from '#lib/components/ResourcesTable/ResourcesTable.svelte';
+	import UploadDialog from '#lib/components/UploadDialog.svelte';
 </script>
 
-<section class="flex h-full">
+<section class="flex">
 	<ResourceTable />
+	<UploadDialog />
 </section>

@@ -1,4 +1,6 @@
 <script>
+	// @ts-nocheck
+
 	import Portrait from '#static/img/portrait-placeholder.png';
 	import USFlag from '#static/img/us-flag.jpg';
 	import Logo from '#static/img/pack-logo.png';
