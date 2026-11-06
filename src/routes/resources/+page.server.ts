@@ -3,6 +3,9 @@ import type { Resource } from '#lib/server/database.types.ts';
 import type { Actions } from './$types';
 import * as z from 'zod';
 import { fail } from '@sveltejs/kit';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
+import path from 'node:path';
 
 type Fields = Pick<
 	Resource,
@@ -45,5 +48,12 @@ export const actions = {
 		if (!result.success) {
 			return fail(400, { errors: z.flattenError(result.error).fieldErrors });
 		}
+
+		const { file, ...metadata } = result.data;
+		const fileName = `${randomUUID()}${path.extname(file.name)}`;
+		await mkdir('uploads', { recursive: true });
+		await writeFile(path.join('uploads', fileName), Buffer.from(await file.arrayBuffer()));
+
+		return { success: true };
 	}
 } satisfies Actions;

@@ -6,8 +6,12 @@
 	import Select from './Select/Select.svelte';
 	import { enhance } from '$app/forms';
 
+	let dialog: HTMLDialogElement | undefined = $state();
+
 	let fileName: string = $state('');
-	let { errors }: { errors?: Record<string, string[] | undefined> } = $props();
+
+	type FormProps = { errors?: Record<string, string[] | undefined> };
+	let { errors }: FormProps = $props();
 </script>
 
 {#snippet fieldError(name: string)}
@@ -17,10 +21,10 @@
 {/snippet}
 
 <dialog
+	bind:this={dialog}
 	id="upload-dialog"
 	class="relative mx-auto mt-30 h-fit w-150 flex-col gap-5 rounded-md border border-gray-300 p-10 open:flex"
 	onclose={() => (fileName = '')}
-	open
 >
 	<button
 		command="close"
@@ -35,7 +39,11 @@
 		method="POST"
 		action="?/upload"
 		enctype="multipart/form-data"
-		use:enhance
+		use:enhance={() =>
+			async ({ result, update }) => {
+				await update();
+				if (result.type === 'success') dialog?.close();
+			}}
 	>
 		<div class="flex flex-col gap-1">
 			<Input type="text" placeholder="Title*" name="title" aria-label="Title" required />
