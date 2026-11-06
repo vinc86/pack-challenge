@@ -1,6 +1,5 @@
 import type { Generated } from 'kysely';
-
-type Role = 'Mentor/Coach' | 'Mentee/Coachee';
+import type { Role } from '#lib/constants/roles.ts';
 
 export type Resource = {
 	id: Generated<string>;

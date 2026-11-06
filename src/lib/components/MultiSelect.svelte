@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Resource } from '#lib/server/database.types.ts';
+	import type { Role } from '#lib/constants/roles.ts';
 	import Button from './Button.svelte';
 
-	let selectedRoles: Pick<Resource, 'roles'>[] = $state([]);
+	let selectedRoles: Role[] = $state([]);
 	let open = $state(false);
 	const { roles } = $props();
 </script>

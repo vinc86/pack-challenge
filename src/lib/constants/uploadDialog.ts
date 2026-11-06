@@ -1,4 +1,5 @@
 import type { SelectProps } from '#lib/components/Select/select.types.ts';
+import { ROLES } from './roles.ts';
 
 export const categories: SelectProps = {
 	placeholder: 'Categories*',
@@ -53,14 +54,5 @@ export const providers: SelectProps = {
 
 export const roles: SelectProps = {
 	placeholder: 'Role*',
-	options: [
-		{
-			value: 'coach/mentor',
-			label: 'Coach/Mentor'
-		},
-		{
-			value: 'coachee/mentee',
-			label: 'Coachee/Mentee'
-		}
-	]
+	options: ROLES.map((role) => ({ value: role, label: role }))
 };
