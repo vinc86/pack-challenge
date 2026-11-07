@@ -1,6 +1,4 @@
 <script>
-	// @ts-nocheck
-
 	import Portrait from '#src/img/portrait-placeholder.png';
 	import USFlag from '#src/img/us-flag.jpg';
 	import Logo from '#src/img/pack-logo.png';
@@ -11,7 +9,9 @@
 </script>
 
 <nav class="flex h-14 items-center justify-around border-b border-b-gray-300 shadow">
-	<img alt="pack-logo" src={Logo} class="h-full" aria-label="pack logo" />
+	<a class="block h-full" href={resolve('/')}>
+		<img alt="Pack home" src={Logo} class="h-full" />
+	</a>
 	<ul class="flex gap-5">
 		{#each navlinks as link (link.name)}
 			<li>
