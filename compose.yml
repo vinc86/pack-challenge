@@ -6,10 +6,15 @@ services:
       POSTGRES_PASSWORD: pack_dev
       POSTGRES_DB: pack_resources
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - pack_data:/var/lib/postgresql/data
-      - ./sql/create_resources.sql:/docker-entrypoint-initdb.d/create_resources.sql:ro  
+      - ./sql/create_resources.sql:/docker-entrypoint-initdb.d/create_resources.sql:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U pack -d pack_resources']
+      interval: 2s
+      timeout: 5s
+      retries: 15
 
 volumes:
   pack_data:
