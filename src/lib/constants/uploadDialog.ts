@@ -37,18 +37,10 @@ export const languages: SelectProps = {
 export const providers: SelectProps = {
 	placeholder: 'Provider*',
 	options: [
-		{
-			value: 'pack',
-			label: 'Pack'
-		},
-		{
-			value: 'coursera',
-			label: 'Coursera'
-		},
-		{
-			value: 'aws',
-			label: 'Aws'
-		}
+		{ value: 'skilla', label: 'Skilla' },
+		{ value: 'linkedin', label: 'LinkedIn' },
+		{ value: 'pack', label: 'Pack' },
+		{ value: 'mentor', label: 'Mentor' }
 	]
 };
 

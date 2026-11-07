@@ -1,4 +1,6 @@
 import { ROLES } from '#lib/constants/roles.ts';
+import { categories, languages, providers } from '#lib/constants/uploadDialog.ts';
+import type { SelectProps } from '#lib/components/Select/select.types.ts';
 import type { Resource } from '#lib/server/database.types.ts';
 import z from 'zod';
 
@@ -7,6 +9,13 @@ type Fields = Pick<
 	'title' | 'description' | 'category' | 'language' | 'provider' | 'roles'
 > & { file: File };
 const required = (field: string) => ({ error: `${field} is required` });
+
+// Only accept values that are offered in the form's select options
+const oneOf = (field: SelectProps, error: string) =>
+	z.enum(
+		field.options.map((option) => option.value),
+		{ error }
+	);
 
 export const formSchema = z.object({
 	title: z
@@ -19,9 +28,9 @@ export const formSchema = z.object({
 		.trim()
 		.min(1, required('Description'))
 		.max(1000, { error: 'Description must be at most 1000 characters' }),
-	category: z.string(required('Category')).min(1, { error: 'Select a category' }),
-	language: z.string(required('Language')).min(1, { error: 'Select a language' }),
-	provider: z.string(required('Provider')).min(1, { error: 'Select a provider' }),
+	category: oneOf(categories, 'Select a category'),
+	language: oneOf(languages, 'Select a language'),
+	provider: oneOf(providers, 'Select a provider'),
 	roles: z
 		.array(z.enum(ROLES, { error: 'Invalid role' }))
 		.min(1, { error: 'Select at least one role' }),
