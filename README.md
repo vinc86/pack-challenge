@@ -21,7 +21,7 @@ pnpm start
 
 Open <http://localhost:5173/resources>.
 
-`pnpm start` starts PostgreSQL in Docker (the table is created on the first run) and then the dev server. No `.env` file is needed.
+`pnpm start` starts PostgreSQL in Docker (the table is created on the first run) and then the dev server. The app uses the default local database connection configured in `src/env.ts`. To use a different connection, copy `.env.example` to `.env` and update `DATABASE_URL`.
 
 To stop the database run `docker compose down`. Add `-v` to also delete all data.
 
