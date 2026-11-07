@@ -11,6 +11,11 @@
 	let { data = $bindable() }: Props = $props();
 
 	function handleRowClick(event: MouseEvent | KeyboardEvent, resource: Resource) {
+		if (event instanceof KeyboardEvent) {
+			if (event.key !== 'Enter' && event.key !== ' ') return;
+			if (event.key === ' ') event.preventDefault();
+		}
+
 		if ((event.target as HTMLElement).closest('button, a')) return;
 
 		window.location.href = `/resources/${resource.id}/file`;
@@ -39,7 +44,9 @@
 					onkeydown={(event) => handleRowClick(event, resource)}
 					onclick={(event) => handleRowClick(event, resource)}
 				>
-					<td><a href={resolve('/')}>{resource.title}</a></td>
+					<td
+						><a href={resolve('/resources/[id]/file', { id: resource.id })}>{resource.title}</a></td
+					>
 					<td>{resource.description}</td>
 					<td>{getLabel(categories, resource.category)}</td>
 					<td>{getLabel(languages, resource.language)}</td>

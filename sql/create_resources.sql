@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS resources (
   provider TEXT NOT NULL,
   roles TEXT[] NOT NULL DEFAULT '{}',
   file_path TEXT NOT NULL,
+  type TEXT NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
