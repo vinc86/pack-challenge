@@ -1,3 +1,4 @@
+import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE, MAX_FILE_SIZE_MB } from '#lib/constants/files.ts';
 import { ROLES } from '#lib/constants/roles.ts';
 import { categories, languages, providers } from '#lib/constants/uploadDialog.ts';
 import type { SelectProps } from '#lib/components/Select/select.types.ts';
@@ -37,5 +38,6 @@ export const formSchema = z.object({
 	file: z
 		.file({ error: 'Select a file' })
 		.min(1, { error: 'Select a file' })
-		.max(10_000_000, { error: 'File must be smaller than 10 MB' })
+		.max(MAX_FILE_SIZE, { error: `File must be smaller than ${MAX_FILE_SIZE_MB} MB` })
+		.mime(ALLOWED_FILE_TYPES, { error: 'Unsupported file type' })
 }) satisfies z.ZodType<Fields>;

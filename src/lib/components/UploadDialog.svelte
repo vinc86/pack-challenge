@@ -5,6 +5,7 @@
 	import MultiSelect from './MultiSelect.svelte';
 	import Select from './Select/Select.svelte';
 	import { enhance } from '$app/forms';
+	import { ALLOWED_FILE_TYPES } from '#lib/constants/files.ts';
 
 	let dialog: HTMLDialogElement | undefined = $state();
 
@@ -101,6 +102,7 @@
 					<Input
 						type="file"
 						name="file"
+						accept={ALLOWED_FILE_TYPES.join(',')}
 						onchange={(e) => (fileName = e.currentTarget.files?.[0]?.name ?? '')}
 						required
 					/>

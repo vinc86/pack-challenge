@@ -1,40 +1,42 @@
-import { database } from '#lib/server/db.ts';
-import path from 'node:path';
-import type { RequestHandler } from './$types';
+import { createReadStream } from 'node:fs';
+import { stat } from 'node:fs/promises';
+import { Readable } from 'node:stream';
 import { error } from '@sveltejs/kit';
-import { readFile } from 'node:fs/promises';
+import * as z from 'zod';
+import { database } from '#lib/server/db.ts';
+import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ params }) => {
-	const resourceId = params.id;
-
-	const resourceFromDb = await database
-		.selectFrom('resources')
-		.select(['file_path'])
-		.where('id', '=', resourceId)
-		.executeTakeFirst();
-
-	if (!resourceFromDb) {
+	// An invalid UUID would make Postgres throw, so treat it as "not found"
+	if (!z.uuid().safeParse(params.id).success) {
 		error(404, 'Resource not found');
 	}
 
-	const file = await readFile(resourceFromDb.file_path);
-	const extension = path.extname(resourceFromDb.file_path).toLowerCase();
+	const resource = await database
+		.selectFrom('resources')
+		.select(['file_path', 'type'])
+		.where('id', '=', params.id)
+		.executeTakeFirst();
 
-	const mimeTypes: Record<string, string> = {
-		'.pdf': 'application/pdf',
-		'.txt': 'text/plain',
-		'.png': 'image/png',
-		'.jpg': 'image/jpeg',
-		'.jpeg': 'image/jpeg',
-		'.mp4': 'video/mp4'
-	};
+	if (!resource) {
+		error(404, 'Resource not found');
+	}
 
-	const contentType = mimeTypes[extension];
+	const fileStats = await stat(resource.file_path).catch(() => null);
+	if (!fileStats) {
+		error(404, 'File not found');
+	}
 
-	return new Response(new Uint8Array(file), {
+	// Stream the file instead of loading it in memory (videos can be large)
+	const stream = Readable.toWeb(createReadStream(resource.file_path)) as ReadableStream;
+
+	return new Response(stream, {
 		headers: {
-			'Content-Type': contentType,
-			'Content-Disposition': 'inline'
+			'Content-Type': resource.type,
+			'Content-Length': String(fileStats.size),
+			'Content-Disposition': 'inline',
+			// Stop the browser from guessing a different (possibly executable) type
+			'X-Content-Type-Options': 'nosniff'
 		}
 	});
 };
