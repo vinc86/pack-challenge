@@ -9,14 +9,10 @@
 	type Props = {
 		data: Resource[];
 	};
-	let { data = $bindable() }: Props = $props();
+	let { data }: Props = $props();
 
-	function handleRowClick(event: MouseEvent | KeyboardEvent, resource: Resource) {
-		if (event instanceof KeyboardEvent) {
-			if (event.key !== 'Enter' && event.key !== ' ') return;
-			if (event.key === ' ') event.preventDefault();
-		}
-
+	// Mouse convenience only: keyboard and screen reader users open the file via the title link
+	function handleRowClick(event: MouseEvent, resource: Resource) {
 		if ((event.target as HTMLElement).closest('button, a')) return;
 
 		window.open(resolve('/resources/[id]/file', { id: resource.id }), '_blank', 'noopener');
@@ -41,8 +37,6 @@
 			{#each data as resource (resource.id)}
 				<tr
 					class="h-12 cursor-pointer border-b border-b-gray-300 hover:bg-gray-50"
-					tabindex="0"
-					onkeydown={(event) => handleRowClick(event, resource)}
 					onclick={(event) => handleRowClick(event, resource)}
 				>
 					<td
@@ -69,8 +63,18 @@
 						></td
 					>
 					<td class="text-center">
-						<button class="cursor-pointer" onclick={() => alert('button')}>...</button></td
+						<button
+							type="button"
+							class="cursor-pointer"
+							aria-label="More actions for {resource.title}">...</button
+						></td
 					>
+				</tr>
+			{:else}
+				<tr>
+					<td colspan="8" class="py-10 text-center text-gray-500">
+						No resources yet. Use the Upload button to add the first one.
+					</td>
 				</tr>
 			{/each}
 		</tbody>

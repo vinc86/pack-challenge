@@ -1,10 +1,12 @@
 <script lang="ts">
 	import type { Role } from '#lib/constants/roles.ts';
+	import { getLabel } from '#lib/helpers/index.ts';
 	import Button from './Button.svelte';
+	import type { SelectProps } from './Select/select.types.ts';
 
 	let selectedRoles: Role[] = $state([]);
 	let open = $state(false);
-	const { roles } = $props();
+	const { roles }: { roles: SelectProps } = $props();
 </script>
 
 <details class="relative" aria-label="Role" bind:open>
@@ -15,7 +17,9 @@
 		{#if selectedRoles.length > 0}
 			<div class="flex gap-2">
 				{#each selectedRoles as selected (selected)}
-					<span class="text-md rounded-full bg-gray-200 px-3 text-black">{selected}</span>
+					<span class="text-md rounded-full bg-gray-200 px-3 text-black"
+						>{getLabel(roles, selected)}</span
+					>
 				{/each}
 			</div>
 		{:else}
