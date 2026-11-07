@@ -14,6 +14,7 @@ export async function load() {
 		.orderBy('created_at', 'desc')
 		.execute();
 
+	console.log(result);
 	return { resources: result };
 }
 

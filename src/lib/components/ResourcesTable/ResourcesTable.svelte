@@ -3,11 +3,18 @@
 	import { getLabel } from '#lib/helpers/index.ts';
 	import type { Resource } from '#lib/server/database.types.ts';
 	import TableNav from './TableNav.svelte';
+	import { resolve } from '$app/paths';
 
 	type Props = {
 		data: Resource[];
 	};
 	let { data = $bindable() }: Props = $props();
+
+	function handleRowClick(event: MouseEvent | KeyboardEvent, resource: Resource) {
+		if ((event.target as HTMLElement).closest('button, a')) return;
+
+		window.location.href = `/resources/${resource.id}/file`;
+	}
 </script>
 
 <div class="mx-auto mt-10 h-fit w-4/5 rounded-md border border-gray-300 p-10 shadow-md">
@@ -26,8 +33,13 @@
 		</thead>
 		<tbody>
 			{#each data as resource (resource.id)}
-				<tr class="h-12 border-b border-b-gray-300">
-					<td>{resource.title}</td>
+				<tr
+					class="h-12 cursor-pointer border-b border-b-gray-300 hover:bg-gray-50"
+					tabindex="0"
+					onkeydown={(event) => handleRowClick(event, resource)}
+					onclick={(event) => handleRowClick(event, resource)}
+				>
+					<td><a href={resolve('/')}>{resource.title}</a></td>
 					<td>{resource.description}</td>
 					<td>{getLabel(categories, resource.category)}</td>
 					<td>{getLabel(languages, resource.language)}</td>
@@ -40,7 +52,9 @@
 						</div>
 					</td>
 					<td><span class="rounded-full bg-gray-100 px-3 py-1">{resource.type}</span></td>
-					<td class="text-center">...</td>
+					<td class="text-center">
+						<button class="cursor-pointer" onclick={() => alert('button')}>...</button></td
+					>
 				</tr>
 			{/each}
 		</tbody>
