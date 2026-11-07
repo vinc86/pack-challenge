@@ -18,7 +18,7 @@
 
 		if ((event.target as HTMLElement).closest('button, a')) return;
 
-		window.location.href = `/resources/${resource.id}/file`;
+		window.open(resolve('/resources/[id]/file', { id: resource.id }), '_blank', 'noopener');
 	}
 </script>
 
@@ -45,7 +45,11 @@
 					onclick={(event) => handleRowClick(event, resource)}
 				>
 					<td
-						><a href={resolve('/resources/[id]/file', { id: resource.id })}>{resource.title}</a></td
+						><a
+							href={resolve('/resources/[id]/file', { id: resource.id })}
+							target="_blank"
+							rel="noopener noreferrer">{resource.title}</a
+						></td
 					>
 					<td>{resource.description}</td>
 					<td>{getLabel(categories, resource.category)}</td>
