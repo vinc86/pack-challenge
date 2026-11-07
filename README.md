@@ -36,3 +36,4 @@ To stop the database run `docker compose down`. Add `-v` to also delete all data
 - Files are stored locally in `uploads/`; the database keeps their path and type.
 - Allowed files: PDF, TXT, Word, PowerPoint, MP4, WebM, MOV, PNG and JPEG, up to 100 MB.
 - All fields are validated on the server with Zod.
+- Run the tests with `pnpm test`.

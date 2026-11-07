@@ -7,7 +7,10 @@
 
 <button
 	{...rest}
-	class={cn('rounded-lg bg-orange-400 px-4 py-2 font-medium tracking-wider text-white', className)}
+	class={cn(
+		'cursor-pointer rounded-lg bg-orange-400 px-4 py-2 font-medium tracking-wider text-white',
+		className
+	)}
 >
 	{@render children?.()}
 </button>
