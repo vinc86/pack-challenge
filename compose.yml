@@ -6,7 +6,7 @@ services:
       POSTGRES_PASSWORD: pack_dev
       POSTGRES_DB: pack_resources
     ports:
-      - '5432:5432'
+      - '127.0.0.1:5432:5432'
     volumes:
       - pack_data:/var/lib/postgresql/data
       - ./sql/create_resources.sql:/docker-entrypoint-initdb.d/create_resources.sql:ro
