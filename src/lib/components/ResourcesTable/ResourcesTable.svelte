@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { categories, languages, providers, roles } from '#lib/constants/uploadDialog.ts';
 	import { getLabel } from '#lib/helpers/index.ts';
+	import { getFileTypeLabel } from '#lib/constants/files.ts';
 	import type { Resource } from '#lib/server/database.types.ts';
 	import TableNav from './TableNav.svelte';
 	import { resolve } from '$app/paths';
@@ -62,7 +63,11 @@
 							{/each}
 						</div>
 					</td>
-					<td><span class="rounded-full bg-gray-100 px-3 py-1">{resource.type}</span></td>
+					<td
+						><span class="rounded-full bg-gray-100 px-3 py-1"
+							>{getFileTypeLabel(resource.type)}</span
+						></td
+					>
 					<td class="text-center">
 						<button class="cursor-pointer" onclick={() => alert('button')}>...</button></td
 					>
