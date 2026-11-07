@@ -9,5 +9,8 @@
 
 <section class="flex">
 	<ResourceTable />
-	<UploadDialog errors={form?.errors} />
+	<UploadDialog errors={form?.errorType === 'form-errors' ? form.errors : undefined} />
+	{#if form?.errorType === 'upload-fail'}
+		<p class="text-sm text-red-600">{form.message}</p>
+	{/if}
 </section>

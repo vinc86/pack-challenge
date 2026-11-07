@@ -12,11 +12,19 @@
 
 	type FormProps = { errors?: Record<string, string[] | undefined> };
 	let { errors }: FormProps = $props();
+	let formErrors = $derived(errors);
+	let formElement: HTMLFormElement | undefined = $state();
+
+	function resetForm() {
+		fileName = '';
+		formErrors = undefined;
+		formElement?.reset();
+	}
 </script>
 
 {#snippet fieldError(name: string)}
-	{#if errors?.[name]?.length}
-		<p class="text-sm text-red-600">{errors[name][0]}</p>
+	{#if formErrors?.[name]?.length}
+		<p class="text-sm text-red-600">{formErrors[name][0]}</p>
 	{/if}
 {/snippet}
 
@@ -24,7 +32,7 @@
 	bind:this={dialog}
 	id="upload-dialog"
 	class="relative mx-auto mt-30 h-fit w-150 flex-col gap-5 rounded-md border border-gray-300 p-10 open:flex"
-	onclose={() => (fileName = '')}
+	onclose={resetForm}
 >
 	<button
 		command="close"
@@ -35,6 +43,7 @@
 	<h2 class="text-xl">Upload Resource</h2>
 
 	<form
+		bind:this={formElement}
 		class="flex flex-col gap-5"
 		method="POST"
 		action="?/upload"
