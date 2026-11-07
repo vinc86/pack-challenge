@@ -11,14 +11,21 @@
 
 	let fileName: string = $state('');
 
-	type FormProps = { errors?: Record<string, string[] | undefined> };
-	let { errors }: FormProps = $props();
+	type FormProps = {
+		errors?: Record<string, string[] | undefined>;
+		message?: string;
+		onsuccess?: () => void;
+	};
+	let { errors, message, onsuccess }: FormProps = $props();
 	let formErrors = $derived(errors);
+	let formMessage = $derived(message);
 	let formElement: HTMLFormElement | undefined = $state();
+	let submitting = $state(false);
 
 	function resetForm() {
 		fileName = '';
 		formErrors = undefined;
+		formMessage = undefined;
 		formElement?.reset();
 	}
 </script>
@@ -32,6 +39,7 @@
 <dialog
 	bind:this={dialog}
 	id="upload-dialog"
+	aria-labelledby="upload-dialog-title"
 	class="relative mx-auto mt-30 h-fit w-150 flex-col gap-5 rounded-md border border-gray-300 p-10 open:flex"
 	onclose={resetForm}
 >
@@ -41,7 +49,7 @@
 		aria-label="Close"
 		class="absolute top-4 right-4 cursor-pointer">&times;</button
 	>
-	<h2 class="text-xl">Upload Resource</h2>
+	<h2 id="upload-dialog-title" class="text-xl">Upload Resource</h2>
 
 	<form
 		bind:this={formElement}
@@ -49,11 +57,19 @@
 		method="POST"
 		action="?/upload"
 		enctype="multipart/form-data"
-		use:enhance={() =>
-			async ({ result, update }) => {
+		use:enhance={() => {
+			submitting = true;
+
+			return async ({ result, update }) => {
 				await update();
-				if (result.type === 'success') dialog?.close();
-			}}
+				submitting = false;
+
+				if (result.type === 'success') {
+					dialog?.close();
+					onsuccess?.();
+				}
+			};
+		}}
 	>
 		<div class="flex flex-col gap-1">
 			<Input type="text" placeholder="Title*" name="title" aria-label="Title" required />
@@ -110,8 +126,17 @@
 			</div>
 			{@render fieldError('file')}
 		</div>
-		<div class="flex">
-			<Button class="ml-auto w-fit" type="submit">Upload</Button>
+		<div class="flex items-center gap-3">
+			{#if formMessage}
+				<p class="text-sm text-red-600">{formMessage}</p>
+			{/if}
+			<Button
+				class="ml-auto w-fit disabled:cursor-not-allowed disabled:opacity-60"
+				type="submit"
+				disabled={submitting}
+			>
+				{submitting ? 'Uploading…' : 'Upload'}
+			</Button>
 		</div>
 	</form>
 </dialog>
