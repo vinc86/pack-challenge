@@ -1,7 +1,7 @@
-import type { Generated } from 'kysely';
+import type { Generated, Insertable, Selectable } from 'kysely';
 import type { Role } from '#lib/constants/roles.ts';
 
-export type Resource = {
+export type ResourceTable = {
 	id: Generated<string>;
 	title: string;
 	description: string;
@@ -11,8 +11,12 @@ export type Resource = {
 	roles: Role[];
 	file_path: string;
 	created_at: Generated<Date>;
+	type: string;
 };
 
+export type Resource = Selectable<ResourceTable>;
+export type NewResource = Insertable<ResourceTable>;
+
 export interface Database {
-	resources: Resource;
+	resources: ResourceTable;
 }
